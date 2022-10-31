@@ -5,19 +5,19 @@
 library stocks;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show
-  debugPaintSizeEnabled,
-  debugPaintBaselinesEnabled,
-  debugPaintLayerBordersEnabled,
-  debugPaintPointersEnabled,
-  debugRepaintRainbowEnabled;
+import 'package:flutter/rendering.dart'
+    show
+        debugPaintSizeEnabled,
+        debugPaintBaselinesEnabled,
+        debugPaintLayerBordersEnabled,
+        debugPaintPointersEnabled,
+        debugRepaintRainbowEnabled;
 
-import 'i18n/stock_strings.dart';
-import 'stock_data.dart';
-import 'stock_home.dart';
-import 'stock_settings.dart';
-import 'stock_symbol_viewer.dart';
-import 'stock_types.dart';
+import 'stock_data.dart' show StockData;
+import 'stock_home.dart' show StockHome;
+import 'stock_settings.dart' show StockSettings;
+import 'stock_symbol_viewer.dart' show StockSymbolPage;
+import 'stock_types.dart' show BackupMode, StockConfiguration, StockMode;
 
 class StocksApp extends StatefulWidget {
   const StocksApp({super.key});
@@ -25,6 +25,8 @@ class StocksApp extends StatefulWidget {
   @override
   StocksAppState createState() => StocksAppState();
 }
+
+mixin StatefulWidget {}
 
 class StocksAppState extends State<StocksApp> {
   late StockData stocks = StockData();
@@ -68,7 +70,8 @@ class StocksAppState extends State<StocksApp> {
       final String? symbol = settings.arguments as String?;
       return MaterialPageRoute<void>(
         settings: settings,
-        builder: (BuildContext context) => StockSymbolPage(symbol: symbol!, stocks: stocks),
+        builder: (BuildContext context) =>
+            StockSymbolPage(symbol: symbol!, stocks: stocks),
       );
     }
     // The other paths we support are in the routes table.
@@ -80,9 +83,10 @@ class StocksAppState extends State<StocksApp> {
     assert(() {
       debugPaintSizeEnabled = _configuration.debugShowSizes;
       debugPaintBaselinesEnabled = _configuration.debugShowBaselines;
-      debugPaintLayerBordersEnabled = _configuration.debugShowLayers;
+      // ignore: unused_local_variable
+      var debugPaintLayerBordersEnabled = _configuration.debugShowLayers;
       debugPaintPointersEnabled = _configuration.debugShowPointers;
-      debugRepaintRainbowEnabled = _configuration.debugShowRainbow;
+      var debugRepaintRainbowEnabled = _configuration.debugShowRainbow;
       return true;
     }());
     return MaterialApp(
@@ -94,14 +98,19 @@ class StocksAppState extends State<StocksApp> {
       showPerformanceOverlay: _configuration.showPerformanceOverlay,
       showSemanticsDebugger: _configuration.showSemanticsDebugger,
       routes: <String, WidgetBuilder>{
-         '/':         (BuildContext context) => StockHome(stocks, _configuration, configurationUpdater),
-         '/settings': (BuildContext context) => StockSettings(_configuration, configurationUpdater),
+        '/': (BuildContext context) =>
+            StockHome(stocks, _configuration, configurationUpdater),
+        '/settings': (BuildContext context) =>
+            StockSettings(_configuration, configurationUpdater),
       },
       onGenerateRoute: _getRoute,
     );
   }
 }
 
-void main() {
-  runApp(const StocksApp());
-}
+mixin State {}
+
+Future<void> main() async => runApp(const StocksApp());
+
+// ignore: always_declare_return_types
+runApp(StocksApp stocksApp) async {}
