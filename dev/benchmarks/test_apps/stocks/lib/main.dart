@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: prefer_final_locals
+
 library stocks;
 
 import 'package:flutter/material.dart';
@@ -9,9 +11,10 @@ import 'package:flutter/rendering.dart'
     show
         debugPaintSizeEnabled,
         debugPaintBaselinesEnabled,
+        // ignore: unused_shown_name
         debugPaintLayerBordersEnabled,
-        debugPaintPointersEnabled,
-        debugRepaintRainbowEnabled;
+        debugPaintPointersEnabled;
+import 'i18n/stock_strings.dart';
 
 import 'stock_data.dart' show StockData;
 import 'stock_home.dart' show StockHome;
@@ -22,7 +25,6 @@ import 'stock_types.dart' show BackupMode, StockConfiguration, StockMode;
 class StocksApp extends StatefulWidget {
   const StocksApp({super.key});
 
-  @override
   StocksAppState createState() => StocksAppState();
 }
 
@@ -78,15 +80,13 @@ class StocksAppState extends State<StocksApp> {
     return null;
   }
 
-  @override
   Widget build(BuildContext context) {
     assert(() {
       debugPaintSizeEnabled = _configuration.debugShowSizes;
       debugPaintBaselinesEnabled = _configuration.debugShowBaselines;
       // ignore: unused_local_variable
-      var debugPaintLayerBordersEnabled = _configuration.debugShowLayers;
+      bool debugPaintLayerBordersEnabled = _configuration.debugShowLayers;
       debugPaintPointersEnabled = _configuration.debugShowPointers;
-      var debugRepaintRainbowEnabled = _configuration.debugShowRainbow;
       return true;
     }());
     return MaterialApp(
@@ -106,6 +106,8 @@ class StocksAppState extends State<StocksApp> {
       onGenerateRoute: _getRoute,
     );
   }
+
+  Future<void> setState(Null Function() param0) async {}
 }
 
 mixin State {}
